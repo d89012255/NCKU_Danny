@@ -12,7 +12,7 @@ from sklearn.neural_network import MLPClassifier
 import pandas as pd
 from joblib import load
 from sklearn import preprocessing
-
+import random
 
 def inference():
 
