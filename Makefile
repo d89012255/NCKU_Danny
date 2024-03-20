@@ -1,3 +1,4 @@
+
 .PHONY: build-image push-image helm kustomize native
 
 SERVER  =
@@ -10,24 +11,19 @@ REPO_NAME=d89012255/ncku_danny
 build-image:
 	docker build --tag ${REPO_NAME}:${VERSION} .
 	docker image tag ${REPO_NAME}:${VERSION} ${REPO_NAME}:latest    
-
 push-image: build-image
 	docker push ${REPO_NAME}:${VERSION}
 	docker push ${REPO_NAME}:latest
 docker-lint:
 	@echo "---------docker lint----------"
 	docker run --rm -i hadolint/hadolint < Dockerfile;
-
 shellcheck:
 	@echo "---------shell check----------"
 	shellcheck run.sh
-
 test: shellcheck docker-lint
-
 native:
 	@echo "---------kubectl yaml check -----------"
 	kubectl --dry-run=server apply -f yamls/
-
 helm:
 	@echo "---------helm yaml check -----------"
 	helm install --dry-run --debug test predict_n1_chart
@@ -39,12 +35,9 @@ kustomize:
 	kubectl --dry-run=server apply -k kustomize/overlays/production/
 	@echo "--------- staging -----------"
 	kubectl --dry-run=server apply -k kustomize/overlays/staging/
-
 k8s-yaml: native helm kustomize
-
 bats:
 	@echo "---------bats check-----------"
 	sudo TYPE=${TYPE} bats -t tests/test.bats
-
-k8s-test: k8s-yaml bats
-                     
+k8s-test: k8s-yaml bats+
+        
