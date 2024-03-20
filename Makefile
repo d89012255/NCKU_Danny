@@ -4,8 +4,7 @@ SERVER  =
 COMMIT  =${shell git rev-parse --short HEAD}
 VERSION ?=${COMMIT}
 TYPE    ?=minikube
-REPO_NAME=d89012255/NCKU_Danny
-DOC_REPO_NAME=d89012255/ncku_danny
+REPO_NAME=d89012255/ncku_danny
 build-image:
     docker build --tag ${REPO_NAME}:${VERSION} .
     docker image tag ${REPO_NAME}:${VERSION} ${REPO_NAME}:latest    
